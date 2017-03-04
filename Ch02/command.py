@@ -4,6 +4,8 @@ group
 'reload(kNN)'
 
 
+#test
+
 datingDataMat, datingLabels = kNN.file2matrix('datingTestSet2.txt')
 datingDataMat
 
