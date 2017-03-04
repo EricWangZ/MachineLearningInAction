@@ -3,6 +3,10 @@ Created on Oct 6, 2010
 
 @author: Peter
 '''
+
+import os
+os.chdir('C:\Users\eyuiwng\Desktop\Study\machine learning\workspace\Ch05')
+
 from numpy import *
 import matplotlib
 import matplotlib.pyplot as plt

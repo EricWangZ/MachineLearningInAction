@@ -21,8 +21,10 @@ def calcShannonEnt(dataSet):
     labelCounts = {}
     for featVec in dataSet: #the the number of unique elements and their occurance
         currentLabel = featVec[-1]
+        
         if currentLabel not in labelCounts.keys(): labelCounts[currentLabel] = 0
         labelCounts[currentLabel] += 1
+    
     shannonEnt = 0.0
     for key in labelCounts:
         prob = float(labelCounts[key])/numEntries
@@ -103,3 +105,5 @@ def grabTree(filename):
     fr = open(filename)
     return pickle.load(fr)
     
+
+
