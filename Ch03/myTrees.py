@@ -67,19 +67,45 @@ def majorityCnt(classList):
     return sortedClassCount[0][0]
 
 def createTree(dataSet,labels):
-    classList = [example[-1] for example in dataSet]
-    if classList.count(classList[0]) == len(classList): 
-        return classList[0]#stop splitting when all of the classes are equal
-    if len(dataSet[0]) == 1: #stop splitting when there are no more features in dataSet
-        return majorityCnt(classList)
-    bestFeat = chooseBestFeatureToSplit(dataSet)
-    bestFeatLabel = labels[bestFeat]
-    myTree = {bestFeatLabel:{}}
-    del(labels[bestFeat])
-    featValues = [example[bestFeat] for example in dataSet]
-    uniqueVals = set(featValues)
-    for value in uniqueVals:
-        subLabels = labels[:]       #copy all of labels, so trees don't mess up existing labels
-        myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat, value),subLabels)
+    classList = [example[-1] for example in dataSet]                # get the decision column, ['yes', 'yes', 'no', 'no', 'no']
+    if classList.count(classList[0]) == len(classList):             # count how many 'yes', if all are 'yes', done
+        return classList[0]     # return 'yes', #stop splitting when all of the classes are equal
+    if len(dataSet[0]) == 1:    # get the length of the row, if 1, then all features used up. Stop splitting when there are no more features in dataSet
+        return majorityCnt(classList)   # return the majority of the decision
+    bestFeat = chooseBestFeatureToSplit(dataSet)    # choose the best feature
+    bestFeatLabel = labels[bestFeat]                # get the label of the best feature, like 'no surfacing'
+    myTree = {bestFeatLabel:{}}                     # Dictionary, myTree = {'no surfacing': {}} 
+    del(labels[bestFeat])                           # delete the label of the best feature
+    featValues = [example[bestFeat] for example in dataSet]     # get the value(column) of the best feature, [1, 1, 1, 0, 0]
+    uniqueVals = set(featValues)                    # get the unique values in the best feature, set([0,1])
+    for value in uniqueVals:                        # iterate set([0,1])
+        subLabels = labels[:]                       # copy all of labels, so trees don't mess up existing labels
+        myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat, value),subLabels) # splitdata chop off the best feature values, subLabel already removed bestfeature
     return myTree                            
+
+
+def classify(inputTree,featLabels,testVec):         # {'no surfacing': {0: 'no', 1: {'flippers': {0: 'no', 1: 'yes'}}}}; ['no surfacing', 'flippers'];  [1, 0] 
+    firstStr = inputTree.keys()[0]                  # 'no surfacing'              
+    secondDict = inputTree[firstStr]                # {0: 'no', 1: {'flippers': {0: 'no', 1: 'yes'}}}
+    featIndex = featLabels.index(firstStr)          # featLabels.index('no surfacing') = 0;  ['no surfacing', 'flippers']
+    key = testVec[featIndex]                        # 1 from [1, 0]
+    valueOfFeat = secondDict[key]                   # {'flippers': {0: 'no', 1: 'yes'}}           
+    if isinstance(valueOfFeat, dict): 
+        classLabel = classify(valueOfFeat, featLabels, testVec)
+    else: classLabel = valueOfFeat
+    return classLabel
+
+def storeTree(inputTree,filename):                  # store tree into txt
+    import pickle
+    fw = open(filename,'w')
+    pickle.dump(inputTree,fw)
+    fw.close()
+    
+def grabTree(filename):                             # retrieve from txt
+    import pickle
+    fr = open(filename)
+    return pickle.load(fr)
+    
+
+
 

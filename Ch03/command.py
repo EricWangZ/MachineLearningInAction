@@ -39,17 +39,45 @@ print myTrees.splitDataSet(myDat,0,0)
 print myTrees.chooseBestFeatureToSplit(myDat)
 # 0, the first feature is the best choice for split
 
+subLabels = labels[:]  # create a new label, if use subLabels = labels, then reference to the same data
+myTree = myTrees.createTree(myDat,subLabels)
+print myTree
+print labels
+#{'no surfacing': {0: 'no', 1: {'flippers': {0: 'no', 1: 'yes'}}}}
+'''
+        print myTree['no surfacing']
+        print myTree['no surfacing'][0]
+        print myTree['no surfacing'][1]
+        yourtree = {3: {4:{5:{6}}}}
+        print yourtree
 '''
 
-myTree = trees.createTree(myDat,labels)
-print myTree
-
-
-# 3.2 ä½¿ç”¨Matplotlibæ³¨è§£ç»˜åˆ¶æ ‘å½¢å›¾
-
-# 3.2.1 Matplotlib æ³¨è§£
 
 import treePlotter
-treePlotter.createPlot(myTree)
+#treePlotter.createPlot(myTree)
 
-'''
+myTree['no surfacing'][2]='maybe'
+print myTree
+#treePlotter.createPlot(myTree)
+
+myTree = treePlotter.retrieveTree(0)
+print myTree
+print myTrees.classify(myTree,labels,[1,0])
+print myTrees.classify(myTree,labels,[1,1])
+
+myTrees.storeTree(myTree,'ClassifierStorage.txt')
+yourTree = myTrees.grabTree('ClassifierStorage.txt')
+print yourTree
+
+
+fr=open('lenses.txt')
+lenses = [inst.strip().split('\t') for inst in fr.readlines()]
+lensesLabels = ['age', 'prescript', 'astigmatic', 'tearRate']
+lensesTree = myTrees.createTree(lenses, lensesLabels)
+print lensesTree
+treePlotter.createPlot(lensesTree)
+
+
+
+
+
