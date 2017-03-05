@@ -3,19 +3,12 @@
 #from sys import path
 #path.append(r'C:\Users\eyuiwng\Desktop\Study\machine learning\workspace\Ch03')
 
-#Ch3 å†³ç­–æ ‘
 
-# 3.1 å†³ç­–æ ‘çš„æž„é€ 
-
-# 3.1.1 ä¿¡æ�¯å¢žç›Š
-
-# è®¡ç®—ç»™å®šæ•°æ�®é›†çš„é¦™å†œç†µ
-
-import trees
-myDat, labels = trees.createDataSet()
+import myTrees
+myDat, labels = myTrees.createDataSet()
 print myDat
 
-print trees.calcShannonEnt(myDat)
+print myTrees.calcShannonEnt(myDat)
 
 '''
 myDat [0][-1] = 'no'
@@ -26,14 +19,12 @@ print trees.calcShannonEnt(myDat)
 '''
 
 
-# 3.1.2 åˆ’åˆ†æ•°æ�®é›†
+print myTrees.splitDataSet(myDat,1,1)
+# print trees.splitDataSet(myDat,0,0)
 
-print trees.splitDataSet(myDat,0,1)
-print trees.splitDataSet(myDat,0,0)
+print myTrees.chooseBestFeatureToSplit(myDat)
 
-# é€‰æ‹©æœ€å¥½çš„æ•°æ�®é›†åˆ’åˆ†æ–¹å¼�
-print trees.chooseBestFeatureToSplit(myDat)
-
+'''
 # 3.1.3 é€’å½’æž„å»ºå†³ç­–æ ‘
 
 myTree = trees.createTree(myDat,labels)
@@ -47,3 +38,4 @@ print myTree
 import treePlotter
 treePlotter.createPlot(myTree)
 
+'''
