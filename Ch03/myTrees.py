@@ -20,8 +20,7 @@ def calcShannonEnt(dataSet):                # calculate the Shannon value for on
     numEntries = len(dataSet)               # get the length of the dataSet
     labelCounts = {}                        # create a dictionary, get the number of unique elements and their occurance, 
     for featVec in dataSet:                 # get one row each time from dataSet, 
-        currentLabel = featVec[-1]          # get the element of the last column,  always the last column as label!!!
-        
+        currentLabel = featVec[-1]          # get the element of the last column,  which is the decision!
         if currentLabel not in labelCounts.keys(): labelCounts[currentLabel] = 0    # if currentLabel not in the dictionary, initial this in dictionary as 0
         labelCounts[currentLabel] += 1      # currentlabel in dictionary + 1
     
@@ -46,10 +45,10 @@ def chooseBestFeatureToSplit(dataSet):
     baseEntropy = calcShannonEnt(dataSet)       # calculate the shannon with the current set
     bestInfoGain = 0.0; bestFeature = -1        
     for i in range(numFeatures):                # iterate over all the features, 
-        featList = [example[i] for example in dataSet]  # create a list of all the examples of this feature:i [1,1,1,0,0], get that column
+        featList = [example[i] for example in dataSet]  # create a list of all the values of this feature:i [1,1,1,0,0], get that column
         uniqueVals = set(featList)                      # get a set of unique values
         newEntropy = 0.0
-        for value in uniqueVals:                        # for each unique value of that feature, iteration
+        for value in uniqueVals:                        # for each unique value of that feature, iteration -- splitDataSet -> calShannon -> add up
             subDataSet = splitDataSet(dataSet, i, value)    # split data, dataSet, axis = i (the current feature), value = unique value
             prob = len(subDataSet)/float(len(dataSet))      # calculate the % of this subdataset in the whole dataset
             newEntropy += prob * calcShannonEnt(subDataSet)     # calculate the p * shannon value (of this subdataSet),  sum up to get the whole shannon value for the feature
@@ -58,3 +57,29 @@ def chooseBestFeatureToSplit(dataSet):
             bestInfoGain = infoGain                 # if better than current best, set to best
             bestFeature = i                         # mark this feature
     return bestFeature                              # returns the best feature
+
+def majorityCnt(classList):
+    classCount={}
+    for vote in classList:
+        if vote not in classCount.keys(): classCount[vote] = 0
+        classCount[vote] += 1
+    sortedClassCount = sorted(classCount.iteritems(), key=operator.itemgetter(1), reverse=True)
+    return sortedClassCount[0][0]
+
+def createTree(dataSet,labels):
+    classList = [example[-1] for example in dataSet]
+    if classList.count(classList[0]) == len(classList): 
+        return classList[0]#stop splitting when all of the classes are equal
+    if len(dataSet[0]) == 1: #stop splitting when there are no more features in dataSet
+        return majorityCnt(classList)
+    bestFeat = chooseBestFeatureToSplit(dataSet)
+    bestFeatLabel = labels[bestFeat]
+    myTree = {bestFeatLabel:{}}
+    del(labels[bestFeat])
+    featValues = [example[bestFeat] for example in dataSet]
+    uniqueVals = set(featValues)
+    for value in uniqueVals:
+        subLabels = labels[:]       #copy all of labels, so trees don't mess up existing labels
+        myTree[bestFeatLabel][value] = createTree(splitDataSet(dataSet, bestFeat, value),subLabels)
+    return myTree                            
+
