@@ -3,8 +3,8 @@
 #coding=utf-8
 
 from sys import path
-#path.append(r'C:\Users\eyuiwng\Desktop\Study\machine learning\workspace\Ch03')
-path.append(r'D:\Study\Workspaces\MyEclipse 2015\MachineLearningInAction\Ch04')
+path.append(r'C:\Users\eyuiwng\Desktop\Study\machine learning\workspace\Ch04')
+#path.append(r'D:\Study\Workspaces\MyEclipse 2015\MachineLearningInAction\Ch04')
 
 
 import MyBayes
@@ -15,6 +15,8 @@ print myVocablist
 
 print MyBayes.setOfWords2Vec(myVocablist, listOPosts[0])
 print MyBayes.setOfWords2Vec(myVocablist, listOPosts[3])
+#print MyBayes.bagOfWords2VecMN(myVocablist, listOPosts[0])
+#print MyBayes.bagOfWords2VecMN(myVocablist, listOPosts[3])
 
 trainMat = []
 for postinDoc in listOPosts:
@@ -40,17 +42,29 @@ print p0v
 print p1v
 print pAb
 
-'''
-reload(MyBayes)
+# reload(MyBayes)
 MyBayes.testingNB()
+
+''' test purpose
+print MyBayes.textParse('this is my book.')  # test purpose
+emailText = open('email/ham/6.txt').read()
+listOfTokens = MyBayes.textParse(emailText)
+print listOfTokens
+
+'''
 
 MyBayes.spamTest()
 
 
-
 import feedparser
-ny=feedparser.parse('http://newyork.craigslist.org/stp/index.rss')
-ny=feedparser.parse('http://sfbay.craigslist.org/stp/index.rss')
 
-ny['entries']
-'''
+ny=feedparser.parse('http://newyork.craigslist.org/stp/index.rss')
+sf=feedparser.parse('http://sfbay.craigslist.org/stp/index.rss')
+
+vocabList,pSF,pNY=MyBayes.localWords(ny,sf)
+
+print vocabList,pSF,pNY
+
+print MyBayes.getTopWords(ny,sf)
+
+
