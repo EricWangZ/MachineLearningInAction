@@ -50,6 +50,17 @@ prediction10=Myadaboost.adaClassify (testArr, classifierArray)
 errArr = mat(ones((67,1)))
 print errArr[prediction10 != mat(testLabelArr).T].sum()/67
 
+# 7.7 非均衡分类问题
+#     不同类别的分类代价是不一样的
+# 7.7.1 其他分类性能度量指标：正确率、召回率及ROC曲线
+# TP: True Positive; TN: True Negative; FN: False Negative; FP: False Positive
+# 正确率：Precision: TP/(TP+FP); 召回率 Recall: TP/(TP+FN)
+# ROC curve
 
+Myadaboost.plotROC(aggClassEst.T, labelArr)
 
+# 7.7.2 基于代价函数的分类器决策控制
+# cost sensitive learning
 
+# 7.7.3 处理非均衡问题的数据抽样方法
+# under sampling; over sampling
