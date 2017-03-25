@@ -110,4 +110,11 @@ yMat = yMat - yMean
 weights = Myregression.standRegres(xMat,yMat.T)
 print weights.T
 
-# 8.5
+
+# 8.5 权衡偏差与方差
+
+# 8.6 示例：预测乐高玩具套装的价格
+# 8.6.1 收集数据： 使用Google 购物的API
+
+lgX = []; lgY = []
+print Myregression.setDataCollect(lgX,lgY)
