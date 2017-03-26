@@ -117,4 +117,5 @@ print weights.T
 # 8.6.1 收集数据： 使用Google 购物的API
 
 lgX = []; lgY = []
-print Myregression.setDataCollect(lgX,lgY)
+# print Myregression.setDataCollect(lgX,lgY)
+print Myregression.setDataCollect()
