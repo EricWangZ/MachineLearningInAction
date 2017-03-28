@@ -2,8 +2,8 @@
 #coding=utf-8
 
 from sys import path
-#path.append(r'C:\Users\eyuiwng\Desktop\Study\machine learning\workspace\Ch08')
-path.append(r'D:\Study\Workspaces\MyEclipse 2015\MachineLearningInAction\Ch08')
+path.append(r'C:\Users\eyuiwng\Desktop\Study\machine learning\workspace\Ch08')
+#path.append(r'D:\Study\Workspaces\MyEclipse 2015\MachineLearningInAction\Ch08')
 
 from numpy import *
 import Myregression
@@ -117,5 +117,6 @@ print weights.T
 # 8.6.1 收集数据： 使用Google 购物的API
 
 lgX = []; lgY = []
-# print Myregression.setDataCollect(lgX,lgY)
-print Myregression.setDataCollect()
+print Myregression.setDataCollect(lgX,lgY)
+#print Myregression.setDataCollect()
+
