@@ -13,15 +13,25 @@ os.chdir('C:\Users\eyuiwng\Desktop\Study\machine learning\workspace\Ch05')
 from numpy import *
 import MylogRegres
 
+# 第5章 Logistic 回归
+
+# 5.1 基于Logistics回归和Sigmoid函数的分类
+
+# 5.2 基于最优化方法的最佳回归系数确定
+
+# 5.2.1 梯度上升法
+
+# 5.2.2 训练算法： 使用梯度上升找到最佳参数
+
 dataArr, labelMat=MylogRegres.loadDataSet()
 weights=MylogRegres.gradAscent(dataArr, labelMat)
 
 print weights
 
-#5.2.3 分析数据：画出决策边界
+# 5.2.3 分析数据：画出决策边界
 MylogRegres.plotBestFit(weights.getA())
 
-#5.2.4 训练算法：随机梯度上升
+# 5.2.4 训练算法：随机梯度上升
 # 在整个数据集上遍历一次
 weights=MylogRegres.stocGradAscent0(array(dataArr), labelMat)
 MylogRegres.plotBestFit(weights)
